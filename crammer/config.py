@@ -1,7 +1,6 @@
 import json
 import os
-
-import questionary
+import getpass
 
 from crammer.utils import deepseek_verify
 
@@ -59,7 +58,8 @@ def get_api_key():
 
 
 def setup_api_key():
-    key = questionary.password("Enter your DeepSeek API Key:").ask()
+    print()
+    key = input("Enter your DeepSeek API Key: ").strip()
     if not key:
         return ""
 
@@ -71,7 +71,7 @@ def setup_api_key():
         return key
 
     print(" Failed")
-    print(f"Error: {error_msg}")
+    print("Error:", error_msg)
     print()
     print("Tip: If you are in China, you may need a proxy.")
     print("Edit start.bat and uncomment the HTTP_PROXY/HTTPS_PROXY lines.")
