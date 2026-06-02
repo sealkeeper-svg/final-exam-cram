@@ -5,7 +5,7 @@ from openai import OpenAI
 
 def deepseek_verify(api_key):
     try:
-        client = OpenAI(api_key=api_key, base_url="https://api.deepseek.com")
+        client = OpenAI(api_key=api_key, base_url="https://api.deepseek.com", timeout=10.0)
         client.chat.completions.create(
             model="deepseek-chat",
             messages=[{"role": "user", "content": "hi"}],
@@ -17,7 +17,7 @@ def deepseek_verify(api_key):
 
 
 def deepseek_chat(messages, api_key, model="deepseek-chat"):
-    client = OpenAI(api_key=api_key, base_url="https://api.deepseek.com")
+    client = OpenAI(api_key=api_key, base_url="https://api.deepseek.com", timeout=60.0)
     last_exc = None
     for attempt in range(3):
         try:

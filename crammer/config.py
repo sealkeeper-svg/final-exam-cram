@@ -62,8 +62,18 @@ def setup_api_key():
     key = questionary.password("Enter your DeepSeek API Key:").ask()
     if not key:
         return ""
+
+    import sys
+    sys.stdout.write("Verifying...")
+    sys.stdout.flush()
+
     if deepseek_verify(key):
+        sys.stdout.write(" Connected!\n")
+        sys.stdout.flush()
         save_config("api_key", key)
         return key
-    print("API Key verification failed. Please try again.")
+    sys.stdout.write(" Failed\n")
+    sys.stdout.flush()
+    print("API Key verification failed. Check your key or network.")
+    print("If you are in China, you may need a proxy. Set HTTP_PROXY/HTTPS_PROXY env vars.")
     return ""
