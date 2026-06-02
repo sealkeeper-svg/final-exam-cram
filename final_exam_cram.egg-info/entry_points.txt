@@ -1,0 +1,2 @@
+[console_scripts]
+cram = cli.main:app

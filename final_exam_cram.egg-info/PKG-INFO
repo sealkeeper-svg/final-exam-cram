@@ -1,0 +1,12 @@
+Metadata-Version: 2.4
+Name: final-exam-cram
+Version: 0.1.0
+Summary: Local TUI final exam cram tool for Chinese university students
+Requires-Python: >=3.10
+Requires-Dist: typer>=0.21.0
+Requires-Dist: rich>=14.0.0
+Requires-Dist: questionary>=2.1.0
+Requires-Dist: pdfplumber>=0.11.0
+Requires-Dist: python-pptx>=1.0.0
+Requires-Dist: openai>=1.0.0
+Requires-Dist: sqlalchemy>=2.0.0

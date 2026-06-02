@@ -1,0 +1,28 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "final-exam-cram"
+version = "0.1.0"
+description = "Local TUI final exam cram tool for Chinese university students"
+requires-python = ">=3.10"
+dependencies = [
+    "typer>=0.21.0",
+    "rich>=14.0.0",
+    "questionary>=2.1.0",
+    "pdfplumber>=0.11.0",
+    "python-pptx>=1.0.0",
+    "openai>=1.0.0",
+    "sqlalchemy>=2.0.0",
+]
+
+[project.scripts]
+cram = "cli.main:app"
+
+[tool.setuptools.packages.find]
+include = ["crammer*", "cli*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-ra"
