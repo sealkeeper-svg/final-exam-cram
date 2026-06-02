@@ -50,12 +50,18 @@ def ensure_setup():
         header("First Time Setup")
         console.print(Panel(
             "Welcome! You need a DeepSeek API Key to generate study materials.\n"
-            "Get one at [link]https://platform.deepseek.com[/]\n"
+            "Get one at https://platform.deepseek.com\n"
             "Cost: ~0.5-1 CNY per subject (200-page courseware)",
             border_style="cyan"
         ))
         console.print()
-        setup_api_key()
+        key = setup_api_key()
+        if not key:
+            console.print()
+            console.print("[yellow]No API key configured. You can still browse existing subjects,[/]")
+            console.print("[yellow]but creating new subjects requires a valid key.[/]")
+            console.print()
+            input("Press Enter to continue...")
     return True
 
 
