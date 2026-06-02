@@ -50,25 +50,30 @@ def ensure_setup():
     config = load_config()
     with open("data/debug.log", "a", encoding="utf-8") as log:
         log.write(f"api_key present: {bool(config.get('api_key'))}\n")
+
     if not config.get("api_key"):
+        config_path = os.path.abspath("data/config.json")
         with open("data/debug.log", "a", encoding="utf-8") as log:
-            log.write("showing first time setup\n")
-        print("\n" + "="*50, flush=True)
-        print("  FINAL EXAM CRAM - First Time Setup", flush=True)
-        print("="*50, flush=True)
-        print("Welcome! You need a DeepSeek API Key.", flush=True)
-        print("Get one at https://platform.deepseek.com", flush=True)
-        print("Cost: ~0.5-1 CNY per subject", flush=True)
-        print(flush=True)
-        key = setup_api_key()
-        with open("data/debug.log", "a", encoding="utf-8") as log:
-            log.write(f"setup_api_key returned: '{key}'\n")
-        if not key:
-            print(flush=True)
-            print("No API key configured. You can still browse existing subjects,", flush=True)
-            print("but creating new subjects requires a valid key.", flush=True)
-            print(flush=True)
-            input("Press Enter to continue...")
+            log.write(f"config path: {config_path}\n")
+
+        header("Setup Required")
+        console.print(Panel(
+            f"API Key not configured.\n\n"
+            f"1. Open this file in Notepad:\n"
+            f"   [bold cyan]{config_path}[/]\n\n"
+            f"2. Replace the empty [bold]\"api_key\"[/] value with your key:\n"
+            f'   [dim]"api_key": "sk-your-key-here"[/]\n\n'
+            f"3. Save the file and restart this program.\n\n"
+            f"Get a key at [link]https://platform.deepseek.com[/]\n"
+            f"Cost: ~0.5-1 CNY per subject",
+            border_style="cyan",
+            padding=(1, 2)
+        ))
+        console.print()
+        input("Press Enter to exit...")
+        import sys
+        sys.exit(0)
+
     with open("data/debug.log", "a", encoding="utf-8") as log:
         log.write("ensure_setup done\n")
     return True
