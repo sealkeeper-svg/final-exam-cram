@@ -58,13 +58,28 @@ def get_api_key():
 
 
 def setup_api_key():
+    with open("data/debug.log", "a", encoding="utf-8") as log:
+        log.write("setup_api_key: prompting for key\n")
+
     print()
     key = input("Enter your DeepSeek API Key: ").strip()
+
+    with open("data/debug.log", "a", encoding="utf-8") as log:
+        log.write(f"setup_api_key: got key length={len(key)}\n")
+
     if not key:
         return ""
 
     print("Verifying...", end="", flush=True)
+
+    with open("data/debug.log", "a", encoding="utf-8") as log:
+        log.write("setup_api_key: calling deepseek_verify\n")
+
     ok, error_msg = deepseek_verify(key)
+
+    with open("data/debug.log", "a", encoding="utf-8") as log:
+        log.write(f"setup_api_key: ok={ok}, error={error_msg}\n")
+
     if ok:
         print(" Connected!")
         save_config("api_key", key)

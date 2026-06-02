@@ -44,24 +44,33 @@ def header(subtitle=None):
 
 
 def ensure_setup():
+    with open("data/debug.log", "a", encoding="utf-8") as log:
+        log.write("ensure_setup start\n")
     init_db(DB_PATH)
     config = load_config()
+    with open("data/debug.log", "a", encoding="utf-8") as log:
+        log.write(f"api_key present: {bool(config.get('api_key'))}\n")
     if not config.get("api_key"):
-        header("First Time Setup")
-        console.print(Panel(
-            "Welcome! You need a DeepSeek API Key to generate study materials.\n"
-            "Get one at https://platform.deepseek.com\n"
-            "Cost: ~0.5-1 CNY per subject (200-page courseware)",
-            border_style="cyan"
-        ))
-        console.print()
+        with open("data/debug.log", "a", encoding="utf-8") as log:
+            log.write("showing first time setup\n")
+        print("\n" + "="*50, flush=True)
+        print("  FINAL EXAM CRAM - First Time Setup", flush=True)
+        print("="*50, flush=True)
+        print("Welcome! You need a DeepSeek API Key.", flush=True)
+        print("Get one at https://platform.deepseek.com", flush=True)
+        print("Cost: ~0.5-1 CNY per subject", flush=True)
+        print(flush=True)
         key = setup_api_key()
+        with open("data/debug.log", "a", encoding="utf-8") as log:
+            log.write(f"setup_api_key returned: '{key}'\n")
         if not key:
-            console.print()
-            console.print("[yellow]No API key configured. You can still browse existing subjects,[/]")
-            console.print("[yellow]but creating new subjects requires a valid key.[/]")
-            console.print()
+            print(flush=True)
+            print("No API key configured. You can still browse existing subjects,", flush=True)
+            print("but creating new subjects requires a valid key.", flush=True)
+            print(flush=True)
             input("Press Enter to continue...")
+    with open("data/debug.log", "a", encoding="utf-8") as log:
+        log.write("ensure_setup done\n")
     return True
 
 
