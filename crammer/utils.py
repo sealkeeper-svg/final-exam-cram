@@ -11,9 +11,9 @@ def deepseek_verify(api_key):
             messages=[{"role": "user", "content": "hi"}],
             max_tokens=5,
         )
-        return True
-    except Exception:
-        return False
+        return True, ""
+    except Exception as e:
+        return False, str(e)
 
 
 def deepseek_chat(messages, api_key, model="deepseek-chat"):

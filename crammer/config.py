@@ -59,21 +59,35 @@ def get_api_key():
 
 
 def setup_api_key():
-    key = questionary.password("Enter your DeepSeek API Key:").ask()
-    if not key:
-        return ""
+    while True:
+        key = questionary.password("Enter your DeepSeek API Key:").ask()
+        if not key:
+            print("Setup cancelled. You can add your API key later.")
+            return ""
 
-    import sys
-    sys.stdout.write("Verifying...")
-    sys.stdout.flush()
+        print("Verifying...", end="", flush=True)
+        ok, error_msg = deepseek_verify(key)
+        if ok:
+            print(" Connected!")
+            save_config("api_key", key)
+            return key
 
-    if deepseek_verify(key):
-        sys.stdout.write(" Connected!\n")
-        sys.stdout.flush()
-        save_config("api_key", key)
-        return key
-    sys.stdout.write(" Failed\n")
-    sys.stdout.flush()
-    print("API Key verification failed. Check your key or network.")
-    print("If you are in China, you may need a proxy. Set HTTP_PROXY/HTTPS_PROXY env vars.")
-    return ""
+        print(" Failed")
+        print(f"Error: {error_msg}")
+        print()
+
+        retry = questionary.select(
+            "Verification failed. What would you like to do?",
+            choices=[
+                "Try again (re-enter key)",
+                "Try again with proxy (set HTTP_PROXY first)",
+                "Skip for now (add API key later in data/config.json)",
+                "Quit",
+            ]
+        ).ask()
+
+        if retry and "Skip" in retry:
+            return ""
+        if retry and "Quit" in retry:
+            import sys
+            sys.exit(0)
